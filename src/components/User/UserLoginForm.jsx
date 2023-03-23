@@ -54,7 +54,7 @@ const UserLoginForm = ({ closeForm, toogleCurrentFormType }) => {
         <div
           className={styles.link}
           onClick={() => {
-            toogleCurrentFormType("login");
+            toogleCurrentFormType("signup");
           }}
         >
           {" "}

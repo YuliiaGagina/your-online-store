@@ -9,6 +9,7 @@ const initialState = {
   isLoading: false,
   formType: "signup",
   showform: false,
+  like: [],
 };
 
 export const createUser = createAsyncThunk(
@@ -80,6 +81,23 @@ const userSlice = createSlice({
     removeItemFromCart: (state, { payload }) => {
       state.cart = state.cart.filter(({ id }) => id !== payload);
     },
+    addItemToLike: (state, { payload }) => {
+      let newLike = [...state.like];
+      const found = state.like.find(({ id }) => id === payload.id);
+      if (found) {
+        newLike = newLike.map((item) => {
+          return item.id === payload.id
+            ? { ...item, quantity: payload.quantity || item.quantity + 1 }
+            : item;
+        });
+      } else {
+        newLike.push({ ...payload, quantity: 1 });
+      }
+      state.like = newLike;
+    },
+    removeItemFromLike: (state, { payload }) => {
+      state.like = state.like.filter(({ id }) => id !== payload);
+    },
   },
   extraReducers: (builder) => {
     // builder.addCase(getCategories.pending, (state, { payload }) => {
@@ -93,6 +111,12 @@ const userSlice = createSlice({
     // });
   },
 });
-export const { addItemToCart, toogleform, toogleFormType, removeItemFromCart } =
-  userSlice.actions;
+export const {
+  addItemToCart,
+  toogleform,
+  toogleFormType,
+  removeItemFromCart,
+  addItemToLike,
+  removeItemFromLike,
+} = userSlice.actions;
 export default userSlice.reducer;

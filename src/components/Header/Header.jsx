@@ -17,9 +17,12 @@ const Header = () => {
   const navigate = useNavigate();
 
   const [searchValue, setSearchValue] = useState("");
-  const { currentUser, cart } = useSelector(({ user }) => user);
+  const { currentUser, cart, like } = useSelector(({ user }) => user);
 
-  const [values, setValues] = useState({ name: "Guest", avatar: AVATAR });
+  const [values, setValues] = useState({
+    name: "Guest, click and register!",
+    avatar: AVATAR,
+  });
 
   const { data, isLoading } = useGetProductsQuery({ title: searchValue });
 
@@ -30,7 +33,7 @@ const Header = () => {
   }, [currentUser]);
 
   const handleClick = () => {
-    if (!currentUser) dispatch(toogleform(true));
+    if (!currentUser) dispatch(toogleform(+true));
     else navigate(ROUTES.PROFILE);
   };
 
@@ -99,10 +102,13 @@ const Header = () => {
         </form>
 
         <div className={styles.account}>
-          <Link to={ROUTES.HOME} className={styles.favourites}>
+          <Link to={ROUTES.LIKE} className={styles.favourites}>
             <svg className={styles["icon-fav"]}>
               <use xlinkHref={`${process.env.PUBLIC_URL}/sprite.svg#heart`} />
             </svg>
+            {!!like.length && (
+              <span className={styles.count}>{like.length}</span>
+            )}
           </Link>
 
           <Link to={ROUTES.CART} className={styles.cart}>

@@ -4,7 +4,7 @@ export const buildUrl = (url, params) => {
   if (!params) return;
   if (!url) return;
   let urlWithParams = url;
-  console.log(Object.entries(params));
+
   Object.entries(params).forEach(([key, value], i) => {
     const sign = !i ? "?" : "&";
     urlWithParams += `${sign}${key}=${value}`;
